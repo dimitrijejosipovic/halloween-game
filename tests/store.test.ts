@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createStorageStore } from '../src/store.js';
+import { createMemoryStore, createStorageStore } from '../src/store.js';
 import { MAX_SCORE } from '../src/tuning.js';
 
 const KEY = 'dino.hi';
@@ -88,5 +88,14 @@ describe('createStorageStore save', () => {
     expect(() => {
       createStorageStore(brokenStorage, KEY).save(10);
     }).not.toThrow();
+  });
+});
+
+describe('createMemoryStore save', () => {
+  it('never lowers a stored best within the session', () => {
+    const store = createMemoryStore();
+    store.save(500);
+    store.save(300);
+    expect(store.load()).toBe(500);
   });
 });

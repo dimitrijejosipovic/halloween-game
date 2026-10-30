@@ -14,6 +14,7 @@ export function createMemoryStore(
   return {
     load: () => hi,
     save: (score) => {
+      if (hi !== null && hi >= score) return;
       hi = score;
     },
   };
